@@ -65,8 +65,12 @@ sub run {
 		TT_CLOSE          => '%]',
 	);
 
-	my $path_to_skeleton = 'share/Skeleton';  # TODO and when the module is installed?
-	#warn dist_dir('Webber');
+	my $path_to_skeleton = dist_dir('Webber') . "/Skeleton";
+
+	# heuristics to see we are in the development environment:
+	if (-e 'share' and -e 'lib/Webber.pm') {
+		$path_to_skeleton = 'share/Skeleton';
+	}
 
 	my $rule = Path::Iterator::Rule->new;
 	my $next = $rule->iter( $path_to_skeleton, { relative => 1 });
