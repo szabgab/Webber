@@ -51,6 +51,7 @@ sub run {
 		POST_CHOMP   => 0,
 		#PRE_PROCESS  => 'header',
 		EVAL_PERL    => 0,
+		ABSOLUTE     => 1, # is needed only after installation
 	});
 
 	my $module_file = $self->name;
