@@ -8,7 +8,7 @@ my $eumm_version = $ExtUtils::MakeMaker::VERSION;
 $eumm_version =~ s/_//;
 
 WriteMakefile(
-    NAME                => '<% APPNAME %>',
+    NAME                => '[% APPNAME %]',
     AUTHOR              => q{YOUR NAME <youremail@example.com>},
     VERSION_FROM        => 'lib/Skeleton.pm',
     ABSTRACT            => 'YOUR APPLICATION ABSTRACT',
@@ -22,5 +22,5 @@ WriteMakefile(
         'Dancer'     => 1.3121,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean               => { FILES => '<% APPNAME %>-*' },
+    clean               => { FILES => '[% APPNAME %]-*' },
 );

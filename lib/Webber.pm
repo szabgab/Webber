@@ -7,6 +7,7 @@ use Template;
 use Path::Iterator::Rule;
 
 use Cwd        qw(getcwd);
+use File::Path qw(mkpath);
 #use Path::Tiny qw(path);
 
 
@@ -40,21 +41,31 @@ sub run {
 	# create skeleton
 	mkdir $target_path or die;
 
+	my $tt = Template->new({
+		#INCLUDE_PATH => '/search/path',
+		INTERPOLATE  => 0,
+		POST_CHOMP   => 0,
+		#PRE_PROCESS  => 'header',
+		EVAL_PERL    => 0,
+	});
+
+	my %vars = (
+		APPNAME => $self->name,
+	);
+
 	my $path_to_skeleton = 'Skeleton';  # TODO and when the module is installed?
 	my $rule = Path::Iterator::Rule->new;
-	for my $file ( $rule->all( $path_to_skeleton ) ) {
-		say $file;
+	my $next = $rule->iter( $path_to_skeleton, { relative => 1 });
+	while (my $file = $next->() ) {
+		next if $file eq '.';
+		my $src    = "$path_to_skeleton/$file";
+		my $target = "$target_path/$file";
+		if (-d $src) {
+			mkpath $target;
+		} else {
+			$tt->process($src, \%vars, $target)
+		}
 	}
-
-	#my $tt = Template->new({
-	#	#INCLUDE_PATH => '/search/path',
-	#	INTERPOLATE  => 0,
-	#	POST_CHOMP   => 0,
-	#	#PRE_PROCESS  => 'header',
-	#	EVAL_PERL    => 0,
-	#});
-	#$tt->process($template, \%vars, $output, %options)
-
 }
 
 
