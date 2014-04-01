@@ -12,7 +12,6 @@ my @files = qw(
     environments/production.yml
     lib/Project/Name.pm
     Makefile.PL
-    MANIFEST
     MANIFEST.SKIP
     public/404.html
     public/500.html
