@@ -6,9 +6,9 @@ use 5.010;
 use Template;
 use Path::Iterator::Rule;
 
-use Cwd        qw(getcwd);
-use File::Path qw(mkpath);
-#use Path::Tiny qw(path);
+use Cwd            qw(getcwd);
+use File::Path     qw(mkpath);
+use File::ShareDir qw(dist_dir);
 
 our $VERSION = '0.01';
 
@@ -65,7 +65,9 @@ sub run {
 		TT_CLOSE          => '%]',
 	);
 
-	my $path_to_skeleton = 'Skeleton';  # TODO and when the module is installed?
+	my $path_to_skeleton = 'share/Skeleton';  # TODO and when the module is installed?
+	#warn dist_dir('Webber');
+
 	my $rule = Path::Iterator::Rule->new;
 	my $next = $rule->iter( $path_to_skeleton, { relative => 1 });
 	while (my $file = $next->() ) {
