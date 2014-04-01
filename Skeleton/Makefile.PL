@@ -22,5 +22,5 @@ WriteMakefile(
         'Dancer'     => 1.3121,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean               => { FILES => '[% APPNAME %]-*' },
+    clean               => { FILES => '[% DISTRO_NAME %]-*' },
 );

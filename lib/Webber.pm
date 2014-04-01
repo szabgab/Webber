@@ -10,30 +10,34 @@ use Cwd        qw(getcwd);
 use File::Path qw(mkpath);
 #use Path::Tiny qw(path);
 
+our $VERSION = '0.01';
+
 
 option name => (
 	is       => 'ro',
 	format   => 's',
 	required => 1,
-	doc      => 'Name of the application',
+	doc      => 'Name of the application. (e.g. Project::Name)',
 );
 option path => (
 	is       => 'ro',
 	format   => 's',
 	required => 0,
 	default  => \&getcwd,
-	doc => 'Path to directory where project should be created. Defaults to current working directory.',
+	doc      => 'Path to directory where project should be created. Defaults to current working directory.',
 );
 
 sub run {
 	my ($self) = @_;
 
 	# check command line
-	if ($self->name !~ /^[\w-]+$/) {
-		die "--name must be a valid distribution name like  App-Name\n";
+	if ($self->name !~ /^[\w:]+$/) {
+		die "--name must be a valid distribution name like  App::Name\n";
 	}
+	my $distro_name = $self->name;
+	$distro_name =~ s{::}{-}g;
 
-	my $target_path = $self->path . '/' . $self->name;
+	my $target_path = $self->path . '/' . $distro_name;
 	if (-e $target_path) {
 		die "Path '$target_path' already exists.\n";
 	}
@@ -49,17 +53,16 @@ sub run {
 		EVAL_PERL    => 0,
 	});
 
-	my $module_name = $self->name;
-	$module_name =~ s{-}{::}g;
-
 	my $module_file = $self->name;
-	$module_file =~ s{-}{/}g;
+	$module_file =~ s{::}{/}g;
 	$module_file = "lib/$module_file.pm";
 
 	my %vars = (
 		APPNAME           => $self->name,
 		MAIN_MODULE_FILE  => $module_file,
-		MAIN_MODULE_NAME  => $module_name,
+		DISTRO_NAME       => $distro_name,
+		TT_OPEN           => '[%',
+		TT_CLOSE          => '%]',
 	);
 
 	my $path_to_skeleton = 'Skeleton';  # TODO and when the module is installed?
@@ -67,6 +70,7 @@ sub run {
 	my $next = $rule->iter( $path_to_skeleton, { relative => 1 });
 	while (my $file = $next->() ) {
 		next if $file eq '.';
+		next if $file =~ /\.swp$/;
 
 		my $src    = "$path_to_skeleton/$file";
 

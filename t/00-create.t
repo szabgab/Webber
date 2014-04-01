@@ -2,8 +2,8 @@ use strict;
 use warnings;
 
 use Test::More;
-use File::Compare qw(compare);
-#use File::Compare qw(compare_text);
+#use File::Compare qw(compare);
+use File::Compare qw(compare_text);
 
 my @files = qw(
     bin/app.pl
@@ -31,7 +31,7 @@ my @files = qw(
 );
 
 
-plan tests => 1 + @files;
+plan tests => 1 + 2*@files;
 
 use File::Temp qw(tempdir);
 
@@ -39,19 +39,26 @@ my $dir = tempdir( CLEANUP => 1 );
 
 #diag $dir;
 
-system "$^X -Ilib bin/webber --name Project-Name --path $dir";
+use Webber;
+diag "Testing Webber version $Webber::VERSION";
+#system "$^X -Ilib bin/webber --name Project::Name --path $dir";
+local @ARGV = ('--name', 'Project::Name', '--path', $dir);
+Webber->new_with_options->run;
+
 ok(1);
 
 foreach my $file (@files) {
 	my $expected = "t/expect1/Project-Name/$file";
 	my $received = "$dir/Project-Name/$file";
-	ok(compare($received, $expected) == 0, $file);
-	#ok(compare_text("$dir/$file", "t/expect1/$file", sub {
-	#	if ($_[0] eq $_[1]) {
-	#		return 0;
-	#	} else {
-	#		diag "fail";
-	#		return 0;
-	#	}
-	#}) == 0, $file);
+	#ok(compare($expected, $received) == 0, $file);
+	ok -e $received, "$received exists";
+	my @problems;
+	ok(compare_text($expected, $received, sub {
+		if ($_[0] eq $_[1]) {
+			return 0;
+		} else {
+			push @problems, "fail\nExpected: $_[0]\nReceived: $_[1]";
+			return 1;
+		}
+	}) == 0, $file) or diag @problems;
 }

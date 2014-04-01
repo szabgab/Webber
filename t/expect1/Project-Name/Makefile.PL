@@ -8,7 +8,7 @@ my $eumm_version = $ExtUtils::MakeMaker::VERSION;
 $eumm_version =~ s/_//;
 
 WriteMakefile(
-    NAME                => 'Project-Name',
+    NAME                => 'Project::Name',
     AUTHOR              => q{YOUR NAME <youremail@example.com>},
     VERSION_FROM        => 'lib/Project/Name.pm',
     ABSTRACT            => 'YOUR APPLICATION ABSTRACT',
