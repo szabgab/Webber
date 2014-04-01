@@ -27,6 +27,10 @@ my @files = qw(
     t/002_index_route.t
     views/index.tt
     views/layouts/main.tt
+
+    public/css/bootstrap-theme.min.css
+    public/css/bootstrap.min.css
+    public/javascripts/bootstrap.min.js
 );
 
 
