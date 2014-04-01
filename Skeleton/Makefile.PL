@@ -10,7 +10,7 @@ $eumm_version =~ s/_//;
 WriteMakefile(
     NAME                => '[% APPNAME %]',
     AUTHOR              => q{YOUR NAME <youremail@example.com>},
-    VERSION_FROM        => 'lib/Skeleton.pm',
+    VERSION_FROM        => '[% MAIN_MODULE_FILE %]',
     ABSTRACT            => 'YOUR APPLICATION ABSTRACT',
     ($eumm_version >= 6.3001
       ? ('LICENSE'=> 'perl')

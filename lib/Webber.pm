@@ -49,8 +49,16 @@ sub run {
 		EVAL_PERL    => 0,
 	});
 
+	my $module_name = $self->name;
+	$module_name =~ s{-}{::}g;
+
+	my $module_file = $self->name;
+	$module_file =~ s{-}{/}g;
+	$module_file = "lib/$module_file.pm";
+
 	my %vars = (
-		APPNAME => $self->name,
+		APPNAME           => $self->name,
+		MAIN_MODULE_FILE  => $module_file,
 	);
 
 	my $path_to_skeleton = 'Skeleton';  # TODO and when the module is installed?
@@ -58,12 +66,18 @@ sub run {
 	my $next = $rule->iter( $path_to_skeleton, { relative => 1 });
 	while (my $file = $next->() ) {
 		next if $file eq '.';
+
 		my $src    = "$path_to_skeleton/$file";
+
+		if ($file eq 'lib/Skeleton.pm') {
+			$file = $module_file;
+		}
 		my $target = "$target_path/$file";
+
 		if (-d $src) {
-			mkpath $target;
+			mkpath $target or die;
 		} else {
-			$tt->process($src, \%vars, $target)
+			$tt->process($src, \%vars, $target) or die;
 		}
 	}
 }
