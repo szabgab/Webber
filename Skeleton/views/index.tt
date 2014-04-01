@@ -41,7 +41,7 @@
             <h3>Your application's environment</h3>
 
             <ul>
-                <li>Location: <code>/Users/gabor/work/Webber/Skeleton</code></li>
+                <li>Location: <code><% settings.appname %></code></li>
                 <li>Template engine: <code><% settings.template %></code></li>
                 <li>Logger: <code><% settings.logger %></code></li>
                 <li>Environment: <code><% settings.environment %></code></li>
@@ -81,7 +81,7 @@
                 </tr>
                 <tr>
                     <td>Appdir</td>
-                    <td><tt>/Users/gabor/work/Webber/Skeleton</tt></td>
+                    <td><tt><% settings.appname %></tt></td>
                 </tr>
                 <tr>
                     <td>Template engine</td>
@@ -129,7 +129,7 @@
               it's just here to help you get started. The template used to
               generate this content is located in 
               <code>views/index.tt</code>.
-              You can add some routes to <tt>lib/Skeleton.pm</tt>. 
+              You can add some routes to <tt>[% MAIN_MODULE_FILE %]</tt>. 
               </p>
             </li>
 
