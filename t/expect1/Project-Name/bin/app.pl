@@ -1,4 +1,4 @@
 #!/usr/bin/env perl
 use Dancer;
-use Skeleton;
+use Project::Name;
 dance;

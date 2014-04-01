@@ -59,6 +59,7 @@ sub run {
 	my %vars = (
 		APPNAME           => $self->name,
 		MAIN_MODULE_FILE  => $module_file,
+		MAIN_MODULE_NAME  => $module_name,
 	);
 
 	my $path_to_skeleton = 'Skeleton';  # TODO and when the module is installed?

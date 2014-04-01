@@ -1,4 +1,4 @@
 #!/usr/bin/env perl
 use Dancer;
-use Skeleton;
+use [% MAIN_MODULE_NAME %];
 dance;
