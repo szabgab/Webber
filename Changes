@@ -1,4 +1,6 @@
 
+    - Upgrade JQuery to 1.11.0
+
 v0.01 2014.04.01
     - Be able to generate something similar to what dancer -a does.
       With only a few minor fixes.

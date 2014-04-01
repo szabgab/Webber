@@ -22,7 +22,7 @@ my @files = qw(
     public/favicon.ico
     public/images/perldancer-bg.jpg
     public/images/perldancer.jpg
-    public/javascripts/jquery.js
+    public/javascripts/jquery-1.11.0.min.js
     t/001_base.t
     t/002_index_route.t
     views/index.tt
