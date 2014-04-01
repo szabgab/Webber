@@ -4,6 +4,9 @@ use warnings;
 use Test::More;
 #use File::Compare qw(compare);
 use File::Compare qw(compare_text);
+use File::Copy    qw(copy);
+
+my $update = shift;  # run with a command line flag of 1 to update the expected files
 
 my @files = qw(
     bin/app.pl
@@ -53,6 +56,10 @@ ok(1);
 foreach my $file (@files) {
 	my $expected = "t/expect1/Project-Name/$file";
 	my $received = "$dir/Project-Name/$file";
+	if ($update) {
+		copy $received, $expected;
+	}
+
 	#ok(compare($expected, $received) == 0, $file);
 	ok -e $received, "$received exists";
 	my @problems;
