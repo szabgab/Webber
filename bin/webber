@@ -1,3 +1,3 @@
 #!/usr/bin/perl
 use Webber;
-Webber->new->run;
+Webber->new_with_options->run;
